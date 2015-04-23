@@ -39,7 +39,7 @@ public class AutomataCelular {
     public void recorrerAutomata(int []carril, int[] carro){
         
         if(contadorTime< tiempo){
-            if(carril[carril.length] != -1){
+            if(carril[carril.length-1] != -1){
                if(carril[0] == 0 ){
                    carril[0] = carro[contadorCarro];
                    System.out.println("comienzo con el carro " + carro[contadorCarro]);
@@ -50,12 +50,20 @@ public class AutomataCelular {
                //para adelantar vehiculo por el corredor    
                }else{
                     //definimos el limite de los carriles
-                    if(contadorCarril-1 < carril.length && contadorCarril == carril.length ){
-                    
+                    if(contadorCarril == carril.length-1 ){
+                        
+                        //carril[contadorCarril] = -1;
+                        carril[contadorCarril] = carro[contadorCarro-1];
+                        System.out.println("adelanto  con el carro " + carro[contadorCarro-1]);
+                        carril[contadorCarril-1] = carro[contadorCarro];
+                        System.out.println("comienzo con el carro " + carro[contadorCarro]);
+                        
+                    }else{
+                        
                         if (carril[contadorCarril-1] == 1 && carril[contadorCarril]==0 ){
                    
                             carril[contadorCarril] = carro[contadorCarro-1];
-                            System.out.println("comienzo con el carro " + carro[contadorCarro-1]);
+                            System.out.println("adelanto  con el carro " + carro[contadorCarro-1]);
                             carril[contadorCarril-1] = carro[contadorCarro];
                             System.out.println("comienzo con el carro " + carro[contadorCarro]);
 
@@ -66,8 +74,7 @@ public class AutomataCelular {
                             contadorCarril++;
                             recorrerAutomata(carril,carro);
                         }
-                    }else{
-                        carril[contadorCarril] = -1;
+                        
                     }
                     
                    

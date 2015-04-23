@@ -21,7 +21,7 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Automata objAutomata2 = new Automata();
+        AutomataCelular objAutomata2 = new AutomataCelular();
         
         int[] arreglo = objAutomata2.inizializar();
         int [] carros = objAutomata2.inicializarCar();
