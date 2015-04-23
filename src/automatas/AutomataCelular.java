@@ -6,6 +6,8 @@
 
 package automatas;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author jhon
@@ -18,14 +20,15 @@ public class AutomataCelular {
     int tiempo = 5;
     int contadorCarro = 0;
     int contadorTime = 0;
-    int contadorCarril = 0;
+    int contadorCarril = carril.length;
+    int [] cola;
     
     //inicializamos los valores
     public int [] inicializarCar(){
         
         carros[0]=1;
-        carros[1]=1;
-        carros[2]=1;
+        carros[1]=2;
+        carros[2]=3;
         return carros;
     }
     
@@ -39,49 +42,52 @@ public class AutomataCelular {
     public void recorrerAutomata(int []carril, int[] carro){
         
         if(contadorTime< tiempo){
-            if(carril[carril.length-1] != -1){
-               if(carril[0] == 0 ){
-                   carril[0] = carro[contadorCarro];
-                   System.out.println("comienzo con el carro " + carro[contadorCarro]);
-                   contadorCarro++;
-                   contadorCarril++;
-                   recorrerAutomata(carril,carro);
-                   
-               //para adelantar vehiculo por el corredor    
-               }else{
-                    //definimos el limite de los carriles
-                    if(contadorCarril == carril.length-1 ){
-                        
-                        //carril[contadorCarril] = -1;
-                        carril[contadorCarril] = carro[contadorCarro-1];
-                        System.out.println("adelanto  con el carro " + carro[contadorCarro-1]);
-                        carril[contadorCarril-1] = carro[contadorCarro];
+            
+                
+            if(carril[0] == 0){
+                carril[0] = 1;
+                System.out.println("comienzo con el carro " + carro[contadorCarro]);
+                       
+                
+                recorrerAutomata(carril,carro);
+
+            }else{
+                for(int carrilIx = 2;carrilIx>0; carrilIx--){
+
+                    //para el comienzo
+                    if(carrilIx == 0 && carril[carrilIx] == 0){
+                        carril[carrilIx] = 1;
                         System.out.println("comienzo con el carro " + carro[contadorCarro]);
-                        
-                    }else{
-                        
-                        if (carril[contadorCarril-1] == 1 && carril[contadorCarril]==0 ){
-                   
-                            carril[contadorCarril] = carro[contadorCarro-1];
-                            System.out.println("adelanto  con el carro " + carro[contadorCarro-1]);
-                            carril[contadorCarril-1] = carro[contadorCarro];
-                            System.out.println("comienzo con el carro " + carro[contadorCarro]);
 
-                            if(carro[contadorCarro] < carro.length){
-                                contadorCarro++;
-                            }
-
-                            contadorCarril++;
-                            recorrerAutomata(carril,carro);
+                        if(contadorCarro<carro.length-1){
+                            contadorCarro++;
                         }
-                        
+                        recorrerAutomata(carril,carro);
+
+                    //para adelantar    
+                    }else if(carril[carrilIx] == 0 && carril[carrilIx-1] == 1){
+                        carril[carrilIx] = 1;
+                        carril[carrilIx-1] = 0;
+                        System.out.println("adelanto con el carro " + carro[contadorCarro]);
+                        //cola[contadorCarril] = carro[contadorCarro];   
+                       if(contadorCarro<carro.length-1){
+                            contadorCarro++;
+                        }
+                        recorrerAutomata(carril,carro);
+
+                    }else if (carrilIx == carril[carril.length-1] && carril[carrilIx-1] == 1){
+                        carril[carril.length-1] = 1;
+                        carril[carrilIx-1] = 0;
+                        System.out.println("termino del carril " + carro[contadorCarro]);
+                        if(carril[0] == 0){
+                            carril[0] = -1;
+                        }
+                        //contadorCarro--;
+                        recorrerAutomata(carril,carro);
                     }
-                    
-                   
-               }
-                   
-                    
-            }    
+                }    
+            }
+        tiempo++;    
         }
         
     }
